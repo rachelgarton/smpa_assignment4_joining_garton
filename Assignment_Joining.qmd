@@ -25,8 +25,6 @@ counties_demographics <- readRDS(here("data", "counties_demographics.rds"))
 counties_elexresults <- readRDS(here("data", "counties_elexresults.rds"))
 counties_rural_urban_suburban <- readRDS(here("data", "counties_rural_urban_suburban.rds"))
 
-
-
 ```
 
 # Exercises
@@ -41,8 +39,12 @@ Join together the election results and urban/suburban/rural tables above, and th
 
 ```{r}
 
+full_join(counties_elexresults, counties_rural_urban_suburban) -> joined_results
 
-
+joined_results %>% 
+  filter(state_code == "VA") %>% 
+  group_by(rural_urban) %>% 
+  summarise(averagevotes = mean(pct_r_2020))
 
 ```
 
@@ -56,8 +58,10 @@ Using the joined election results / urban/suburban/rural table created above:
 
 ```{r}
 
-
-
+joined_results %>% 
+  filter(state_code == "VA") %>% 
+  group_by(rural_urban) %>% 
+  count(winner_2020)
 
 ```
 
@@ -70,9 +74,12 @@ Join together the election results and demographics tables above, and then use t
 -   group/summarize to calculate the mean pct of Trump 2020 vote in the counties above or below national average for college graduates (`pct_ed_college_all_abovebelow_natl`)
 
 ```{r}
+inner_join(counties_demographics, counties_elexresults) -> joined_2
 
-
-
+joined_2 %>% 
+  filter(state_code == "FL") %>% 
+  group_by(pct_ed_college_all_abovebelow_natl) %>% 
+  summarize(averagevotes = mean(pct_r_2020))
 
 ```
 
@@ -86,8 +93,9 @@ Using the joined table you made above:
 
 ```{r}
 
-
-
+joined_2 %>% 
+  group_by(pct_ed_college_all_abovebelow_natl) %>% 
+  summarise(averagevotes = mean(pct_r_2020))
 
 ```
 
