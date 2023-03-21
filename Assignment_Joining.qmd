@@ -105,8 +105,10 @@ Now using the joined datasets above, come up with two groupings you find interes
 
 ```{r}
 
-
-
+joined_2 %>% 
+  filter(state_code == "NC") %>% 
+  group_by(pct_mil_veteran) %>% 
+  summarise(averagevotes = mean(pct_r_2020))
 
 ```
 
@@ -114,9 +116,10 @@ Now using the joined datasets above, come up with two groupings you find interes
 
 ```{r}
 
-
-
-
+joined_2 %>% 
+  filter(county_name == "New Hanover County") %>% 
+  group_by(pct_ed_college_white) %>% 
+  summarise(pct_r_2020)
 
 ```
 
@@ -126,9 +129,9 @@ Up until now we've joined two tables together. But we actually have three tables
 
 ```{r}
 
+joined_results %>% 
+  inner_join(joined_2) 
 
-
-
-
+##No idea if this is right. probably not. 
 
 ```
